@@ -83,7 +83,7 @@ val nodes = Selectors.query(selectorGroups, elem)
 
 This project uses [SBT](http://www.scala-sbt.org/) as its build tool.
 
-# Use this project as a dependency
+## Use this project as a dependency
 
 The artifacts for this project can be found at `chrsan.github.com/maven`.
 
