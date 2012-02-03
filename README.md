@@ -19,7 +19,7 @@ standard [Scala][scala] library, but the parser and its support
 classes may be used independent of the actual XML implementation.
 
 Pseudo elements are parsed but not used when selecting nodes. It
-doesn't make much sense to look for a:hover etc outside of a web browser.
+doesn't make much sense to look for `a::hover` etc outside of a web browser.
 
 See example usage below for more info.
 
