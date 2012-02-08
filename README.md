@@ -83,8 +83,7 @@ val nodes = Selectors.query(selectorGroups, elem)
 
 This project uses [SBT](http://www.scala-sbt.org/) as its build tool.
 
-To use this project as a dependency add `chrsan.github.com/maven` as a
-repository for now.
+Releases are synced to Maven central via Sonatype.
 
 ```scala
 "se.fishtank" % "css-selectors-scala" % version
