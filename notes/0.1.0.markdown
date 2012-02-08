@@ -1,0 +1,7 @@
+Initial release:
+
+* A nice complement to the rudimentary XPath support found in the Scala library.
+* The selector parser and engine are separated.
+* The default selector engine provided is uses classes in the `scala.xml` package, but feel free to roll your own.
+* Check the README for the project for more information.
+ 
