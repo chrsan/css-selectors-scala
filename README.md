@@ -79,6 +79,19 @@ val selectorGroups = SelectorParser.parse("div:nth-child(2n)") match {
 val nodes = Selectors.query(selectorGroups, elem)
 ```
 
+By importing `Selectors._` you can also query like this:
+
+```scala
+elem $ "div > div"
+elem $ selectorGroups
+elem.cssQuery("div > div")
+elem.cssQuery(selectorGroups)
+```
+
+Both `$` and `cssQuery` returns a `List[Node]`. If the selector string
+specified causes a parser error an exception will be thrown. I think
+this makes much more sense when the actual element is in focus.
+
 ## Build instructions
 
 This project uses [SBT](http://www.scala-sbt.org/) as its build tool.

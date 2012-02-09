@@ -12,6 +12,22 @@ import parser.Specifier._
 import xml.{Elem, Node, Text}
 
 object Selectors {
+  class EnrichedElem(elem: Elem) {
+    @throws(classOf[IllegalArgumentException])
+    def cssQuery(selectorString: String): List[Node] = query(selectorString, elem) match {
+      case Right(nodes) => nodes
+      case Left(msg) => throw new IllegalArgumentException(msg)
+    }
+
+    def cssQuery(selectorGroups: List[SelectorGroup]): List[Node] = query(selectorGroups, elem)
+
+    def $(selectorString: String): List[Node] = cssQuery(selectorString)
+
+    def $(selectorGroups: List[SelectorGroup]): List[Node] = cssQuery(selectorGroups)
+  }
+
+  implicit def enrichElem(elem: Elem): EnrichedElem = new EnrichedElem(elem)
+
   def query(selectorString: String, root: Elem): Either[String, List[Node]] =
     new Selectors(root).query(selectorString)
 

@@ -1,0 +1,6 @@
+Minor enhancements:
+
+* Added a pimp and an implicit conversion so one can write:
+        elem $ "div > div"
+        elem.cssQuery("div > div")
+ 
