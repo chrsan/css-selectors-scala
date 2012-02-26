@@ -12,7 +12,7 @@ import parser.Specifier._
 import xml.{Elem, Node, Text}
 
 object Selectors {
-  class EnrichedElem(elem: Elem) {
+  class EnrichedElem(elem: Node) {
     @throws(classOf[IllegalArgumentException])
     def cssQuery(selectorString: String): List[Node] = query(selectorString, elem) match {
       case Right(nodes) => nodes
@@ -26,16 +26,16 @@ object Selectors {
     def $(selectorGroups: List[SelectorGroup]): List[Node] = cssQuery(selectorGroups)
   }
 
-  implicit def enrichElem(elem: Elem): EnrichedElem = new EnrichedElem(elem)
+  implicit def enrichElem(elem: Node): EnrichedElem = new EnrichedElem(elem)
 
-  def query(selectorString: String, root: Elem): Either[String, List[Node]] =
+  def query(selectorString: String, root: Node): Either[String, List[Node]] =
     new Selectors(root).query(selectorString)
 
-  def query(selectorGroups: List[SelectorGroup], root: Elem): List[Node] =
+  def query(selectorGroups: List[SelectorGroup], root: Node): List[Node] =
     new Selectors(root).query(selectorGroups)
 }
 
-class Selectors(val root: Elem) {
+class Selectors(val root: Node) {
   import Zipper._
 
   val rootLoc = Zipper(root)
@@ -83,9 +83,9 @@ class Selectors(val root: Elem) {
       case Descendant =>
         xs match {
           case head :: Nil if head == rootLoc =>
-            xs.flatMap(_.descendantsOrSelf(_.node.isInstanceOf[Elem])).filter(tagName)
+            xs.flatMap(_.descendantsOrSelf(_.node.isInstanceOf[Node])).filter(tagName)
           case _ =>
-            xs.flatMap(_.descendants(_.node.isInstanceOf[Elem])).filter(tagName)
+            xs.flatMap(_.descendants(_.node.isInstanceOf[Node])).filter(tagName)
         }
 
       case Child =>
@@ -150,11 +150,11 @@ class Selectors(val root: Elem) {
   }
 
   private def tagNameFilter(selector: Selector): Zipper.Filter = loc => loc.node match {
-    case e: Elem => selector.tagName == UniversalTag || selector.tagName == e.label
+    case e: Node => selector.tagName == UniversalTag || selector.tagName == e.label
     case _ => false
   }
   
-  private def isElem(loc: Location): Boolean = loc.node.isInstanceOf[Elem]
+  private def isElem(loc: Location): Boolean = loc.node.isInstanceOf[Node]
   
   private def prevElem(loc: Location): Option[Location] = loc.findPrevious(isElem)
   
