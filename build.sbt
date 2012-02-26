@@ -1,6 +1,6 @@
-organization := "se.fishtank"
+organization := "cn.orz.pascal"
 
-name := "css-selectors-scala"
+name := "css-selectors-scala-uo"
 
 version := "0.1.1"
 
