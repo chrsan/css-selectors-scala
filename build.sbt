@@ -2,7 +2,11 @@ organization := "se.fishtank"
 
 name := "css-selectors-scala"
 
-version := "0.1.1"
+version := "0.1.2"
+
+scalaVersion := "2.9.2"
+
+crossScalaVersions := Seq("2.9.2", "2.9.1")
 
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-Xcheckinit", "-Xmigration", "-encoding", "UTF-8")
 

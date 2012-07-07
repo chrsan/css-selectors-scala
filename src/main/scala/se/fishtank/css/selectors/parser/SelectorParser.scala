@@ -41,14 +41,13 @@ private[selectors] class SelectorParser extends RegexParsers with ImplicitConver
   lazy val nmChar: PackratParser[String] =
     """[_a-zA-Z0-9\-]""".r | nonAscii | escape
 
-  lazy val string1: PackratParser[Option[String]] =
-    "\"" ~> opt(stringChars | escapedNl | "'" | nonAscii | escape) <~ "\""
+  lazy val string1: PackratParser[String] =
+    "\"" ~> rep(stringChars | escapedNl | "'" | nonAscii | escape) <~ "\"" ^^ (_.mkString)
 
-  lazy val string2: PackratParser[Option[String]] =
-    "'" ~> opt(stringChars | escapedNl | "'" | nonAscii | escape) <~ "'"
+  lazy val string2: PackratParser[String] =
+    "'" ~> rep(stringChars | escapedNl | "\"" | nonAscii | escape) <~ "'" ^^ (_.mkString)
 
-  lazy val string: PackratParser[String] =
-    (string1 | string2) ^^ { _.getOrElse("") }
+  lazy val string: PackratParser[String] = (string1 | string2)
 
   lazy val ident: PackratParser[String] =
     ("-"?) ~! nmStart ~! (nmChar*) ^^ { case a ~ b ~ c => "%s%s%s".format(a.getOrElse(""), b, c.mkString) }
@@ -70,7 +69,7 @@ private[selectors] class SelectorParser extends RegexParsers with ImplicitConver
     "." ~> ident ^^ { case x => Attribute("class", Some(Attribute.List -> x)) }
 
   lazy val attribMatch: PackratParser[Option[(Attribute.Match, Attribute.Value)]] =
-    opt("""\s*[~|^$*]?=\s*""".r ~! (ident | string)) ^^ {
+    opt("""\s*[~|^$*]?=\s*""".r ~! (string | ident)) ^^ {
       case None => None
       case Some(m ~ value) =>
         m.trim match {

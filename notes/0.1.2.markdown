@@ -1,0 +1,2 @@
+* Fixed a bug when matching attribute values as a string.
+ 

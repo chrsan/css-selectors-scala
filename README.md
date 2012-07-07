@@ -99,7 +99,7 @@ This project uses [SBT](http://www.scala-sbt.org/) as its build tool.
 Releases are synced to Maven central via Sonatype.
 
 ```scala
-"se.fishtank" % "css-selectors-scala" % version
+"se.fishtank" %% "css-selectors-scala" % version
 ```
 
 The versions available can be found in the repo or by looking at the
